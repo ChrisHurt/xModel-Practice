@@ -5,10 +5,27 @@
     .model {
       width: 400px;
       height: 400px;
+      transform: 
+                 rotate3d(1,0,0, 45deg)
+                 rotate3d(0,1,0, 90deg)
+                 rotate3d(0,0,1, 10deg)
+                 ;
+      z-index: 1;
+      /* transition: transform 0.2s ease-in; */
+      transition: transform 2s ease-in;
+    }
+    .change {
+      transform: rotate3d(1,0,0, -20deg)
+                 rotate3d(0,1,0, 30deg)
+                 rotate3d(0,0,1, 35deg)
+                 ;
     }
     .full-width{
       width: 100vw;
       text-align: center;
+    }
+    button {
+      z-index: 3000;
     }
   </style>
   <meta charset="UTF-8">
@@ -19,10 +36,85 @@
 </head>
 <body>
   <h1 class="full-width">xModel Demo</h1>
+  <div style="display: flex; flex-direction: column; flex-basis: 0;">
+      <button class="X">Change X</button>
+      <button class="Y">Change Y</button>
+      <button class="Z">Change Z</button>
+      <button class="swatch">Switch </button>
+  </div>
   <x-model class="model full-width" src="XModels/4OP.obj"></x-model>
 
   <script src="/public/assets/javascripts/three.js"></script>
   <script src="/public/assets/javascripts/three-obj-loader.js"></script>
   <script src="/public/assets/javascripts/model-element.js"></script>
+
+  <script>
+    // Given a zero-index of (45,90,10), positions 2 through 7 are:
+    // 2. (-20, 120, 35)
+    // 3. (45 ,  90,-55)
+    // 4. (-20,  30, 35)
+    // 5. (35.5, 30, 35)
+    // 6. (115,  90, 10)
+    // 7. ( 35, 150, 35)
+
+
+    let X = 45;
+    let Y = 90;
+    let Z = 10;
+    let amount = 5;
+    let sign = true
+
+    let model = document.querySelector('.model')
+    let button = document.querySelector('button')
+    let buttonX  = document.querySelector('.X')
+    let buttonY  = document.querySelector('.Y')
+    let buttonZ  = document.querySelector('.Z')
+    let sw  = document.querySelector('.swatch')
+
+    sw.addEventListener('click',()=>{
+      sign = !sign
+    })
+
+    buttonX.addEventListener('click',()=>{
+      if(sign){
+        X += amount
+      } else {
+        X -= amount
+      }
+      model.style.transform = `rotate3d(1,0,0, ${X}deg)
+                 rotate3d(0,1,0, ${Y}deg)
+                 rotate3d(0,0,1, ${Z}deg)`
+      printState()
+    })
+
+    buttonY.addEventListener('click',()=>{
+      if(sign){
+        Y += amount
+      } else {
+        Y -= amount
+      }
+      model.style.transform = `rotate3d(1,0,0, ${X}deg)
+                 rotate3d(0,1,0, ${Y}deg)
+                 rotate3d(0,0,1, ${Z}deg)`
+      printState()
+    })
+
+    buttonZ.addEventListener('click',()=>{
+      if(sign){
+        Z += amount
+      } else {
+        Z -= amount
+      }
+      model.style.transform = `rotate3d(1,0,0, ${X}deg)
+                 rotate3d(0,1,0, ${Y}deg)
+                 rotate3d(0,0,1, ${Z}deg)`
+      printState()
+    })
+
+    printState = () => {
+      console.log(`X: ${X}, Y: ${Y}, Z: ${Z}`)
+    }
+  
+  </script>
 </body>
 </html>
